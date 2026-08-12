@@ -511,6 +511,92 @@
   </section>
 
   <section>
+    <h2>Natijalar</h2>
+    <h3>Valid to'plamida o'lchangan aniqlik</h3>
+    <p>
+      Quyidagi raqamlar training paytida ko'rilmagan 185 rasm (493 obyekt) ustida olingan.
+      Model <code>yolo11n-seg</code>, 40 epoch, GTX 1650 da o'rgatilgan.
+    </p>
+    <div class="specs">
+      <div class="spec">
+        <div class="spec-k">Segment mAP@50</div>
+        <div class="spec-v">0.729</div>
+      </div>
+      <div class="spec">
+        <div class="spec-k">Segment mAP@50-95</div>
+        <div class="spec-v">0.367</div>
+      </div>
+      <div class="spec">
+        <div class="spec-k">Box mAP@50</div>
+        <div class="spec-v">0.789</div>
+      </div>
+      <div class="spec">
+        <div class="spec-k">Precision / Recall</div>
+        <div class="spec-v">0.826 / 0.786</div>
+      </div>
+    </div>
+    <p>
+      <strong>Recall 0.786</strong> — mavjud nuqsonlarning 79 foizi topilgan. Sanoat monitoringida
+      aynan shu ko'rsatkich muhim: o'tkazib yuborilgan yirtiq noto'g'ri signaldan qimmatga tushadi.
+      Shu sababli ishonch chegarasi past qo'yilgan — shubhali holatni ko'rsatib, operatorga
+      tekshirish imkonini berish afzal.
+    </p>
+    <p>
+      <strong>mAP@50-95 nima uchun pastroq:</strong> bu ko'rsatkich maskaning konturi pikselma-piksel
+      qanchalik mos kelishini o'lchaydi. Yirtiqning cheti tabiatan noaniq — rezina tolalari yirtilgan
+      joyda aniq chegara yo'q, hatto odam ham uni turlicha chizadi. Bizning vazifamiz uchun
+      muhimi — nuqson topilishi va uzunligi to'g'ri o'lchanishi.
+    </p>
+  </section>
+
+  <section>
+    <h2>Raqamlar nimani bildiradi</h2>
+    <p>
+      Ekrandagi har bir qiymat qaror uchun kerak bo'lgani uchun chiqarilgan — bezak emas:
+    </p>
+    <div class="table-scroll">
+      <table>
+        <thead>
+          <tr>
+            <th>Ko'rsatkich</th>
+            <th>Ma'nosi</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="num">Uzunlik (mm)</td>
+            <td class="why">Nuqsonning eng uzun o'qi — maskaga chizilgan minimal burchakli to'rtburchakning uzun tomoni. Qiya va egri yirtiqda ham to'g'ri chiqadi. <strong>Qaror shu raqamga asoslanadi.</strong></td>
+          </tr>
+          <tr>
+            <td class="num">Kenglik (mm)</td>
+            <td class="why">O'sha to'rtburchakning qisqa tomoni — yirtiqning ochilgani. Uzunligi o'zgarmay kengligi ortsa, yirtiq chuqurlashayotgan bo'ladi.</td>
+          </tr>
+          <tr>
+            <td class="num">Ishonch</td>
+            <td class="why">Modelning o'z bahosiga ishonchi (0–1). Chegaradan pastdagilar umuman ko'rsatilmaydi.</td>
+          </tr>
+          <tr>
+            <td class="num">Kadr</td>
+            <td class="why">Nuqson qayd etilgan kadr raqami — yozuvga qaytib, o'sha lahzani tekshirish mumkin.</td>
+          </tr>
+          <tr>
+            <td class="num">FPS</td>
+            <td class="why">Sekundiga necha marta tekshirilishi. 45+ FPS da lenta 2–4 m/s tezlikda yurganda ham hech bir uchastka o'tkazib yuborilmaydi.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout">
+      <div class="spec-k">Millimetr qayerdan keladi</div>
+      <p style="font-size:15.5px">
+        Lenta kengligi pasportda ma'lum va o'zgarmaydi. Masalan lenta 1200 mm va kadrda 800 piksel
+        bo'lsa, 1 piksel = 1.5 mm. Shundan keyin har bir maska millimetrda o'lchanadi.
+        Kalibratsiya bir marta kiritiladi — har smenada qayta o'lchash shart emas.
+      </p>
+    </div>
+  </section>
+
+  <section>
     <h2>Augmentatsiya — nega aynan shunday</h2>
     <p>
       Standart sozlamalar emas, lentaning fizikasiga qarab tanlangan. Har bir qiymat ortida sabab bor:
@@ -590,7 +676,8 @@
   <footer>
     Dataset: Roboflow Universe — <em>conveyor-belt-damage</em> (CC BY 4.0).
     Model: Ultralytics YOLO11 segmentatsiya. Dashboard: Streamlit + OpenCV.
-    Aniqlik metrikalari (mAP) training yakunlangach shu hujjatga qo'shiladi.
+    Kod va o'rgatilgan model: <a href="https://github.com/sunnatillo91/belt_guard"
+    style="color: var(--accent)">github.com/sunnatillo91/belt_guard</a>
   </footer>
 
 </div>

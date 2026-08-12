@@ -30,3 +30,6 @@ venv/
 
 # Eski, almashtirilgan versiya
 beltguard_dashboard_old.py
+
+# Brauzer avtomatizatsiya loglari
+.playwright-mcp/

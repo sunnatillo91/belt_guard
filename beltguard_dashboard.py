@@ -332,7 +332,7 @@ def render_table(with_download=False):
                             "conf": "Ishonch", "length_mm": "Uzunlik (mm)",
                             "width_mm": "Kenglik (mm)", "frame_idx": "Kadr"})
     df["Daraja"] = df["Daraja"].map(lambda s: f"{SEVERITY_ICON.get(s,'')} {SEVERITY_LABEL.get(s,s)}")
-    table_ph.dataframe(df.iloc[::-1], use_container_width=True, height=290, hide_index=True)
+    table_ph.dataframe(df.iloc[::-1], width="stretch", height=290, hide_index=True)
     if with_download:
         dl_ph.download_button("⬇️ CSV hisobot", df.to_csv(index=False).encode(),
                               "beltguard_defects.csv", "text/csv")
@@ -444,7 +444,7 @@ while run:
                     0.8, (255, 255, 255), 2)
 
     video_ph.image(cv2.cvtColor(annotated, cv2.COLOR_BGR2RGB),
-                   channels="RGB", use_container_width=True)
+                   channels="RGB", width="stretch")
 
     fps_now = sum(S.fps_hist) / len(S.fps_hist) if S.fps_hist else 0
     n_crit = sum(1 for e in S.events if e.severity == "CRITICAL")
