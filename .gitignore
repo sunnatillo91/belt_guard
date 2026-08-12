@@ -33,3 +33,6 @@ beltguard_dashboard_old.py
 
 # Brauzer avtomatizatsiya loglari
 .playwright-mcp/
+
+# Birlashtirilgan dataset (skript orqali qayta yig'iladi)
+ds_merged/

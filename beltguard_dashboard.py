@@ -12,6 +12,7 @@ Eslatma: chiroyli dark-mavzu uchun yonidagi .streamlit/config.toml faylini ham
 loyiha papkasiga qo'ying (beltguard_dashboard.py bilan bir joyda).
 """
 
+import logging
 import time
 from collections import deque
 from dataclasses import dataclass, field
@@ -24,7 +25,11 @@ import streamlit as st
 
 # ---------------------------------------------------------------- sozlamalar
 
-MODEL_PATH_DEFAULT = "models/best.pt"
+MODEL_PATH_DEFAULT = "models/best_stand.pt"   # stend kadrlari bilan fine-tune qilingan
+
+# Brauzer tab'i yopilganda asyncio har kadrda ConnectionResetError chiqaradi —
+# ishlashga ta'sir qilmaydi, faqat terminalni to'ldiradi.
+logging.getLogger("asyncio").setLevel(logging.CRITICAL)
 
 CLASS_SEVERITY = {
     "tear": "CRITICAL",
@@ -293,6 +298,9 @@ with st.sidebar:
         st.success(f"1 px = {mm_per_px:.3f} mm")
 
     st.divider()
+    min_area_pct = st.slider("Minimal nuqson o'lchami (kadr %)", 0.0, 2.0, 0.0, 0.05,
+                             help="Bundan kichik maskalar chang/dog' deb hisoblanadi. "
+                                  "Chang ko'p bo'lsa 0.3–0.5 qiling.")
     alert_cooldown = st.number_input("Bir klass uchun alert oralig'i (s)", 1, 120, 10)
     run = st.toggle("**▶️ Monitoringni boshlash**", value=False)
     st.caption("BeltGuard v1.0 · Hackathon 2026")
@@ -401,6 +409,11 @@ while run:
                 m = cv2.resize(m, (frame.shape[1], frame.shape[0]),
                                interpolation=cv2.INTER_NEAREST)
             m_bin = (m > 0.5).astype(np.uint8)
+
+            # Chang va mayda dog'lar filtri: kadr maydonining ma'lum foizidan
+            # kichik maskalar nuqson deb qabul qilinmaydi.
+            if m_bin.sum() / m_bin.size * 100 < min_area_pct:
+                continue
 
             length_mm, width_mm = mask_size_mm(m_bin, mm_per_px)
             sev = escalate(sev, length_mm)
