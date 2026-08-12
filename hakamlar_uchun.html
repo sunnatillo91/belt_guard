@@ -1,0 +1,596 @@
+<title>BeltGuard — texnik qism</title>
+<style>
+  :root {
+    --ground: #F4F5F3;
+    --panel: #FFFFFF;
+    --panel-2: #EAECE8;
+    --ink: #14181C;
+    --ink-soft: #3B444B;
+    --muted: #5E6A72;
+    --rule: #D3D7D2;
+    --accent: #C0561B;
+    --accent-soft: #F0DDD0;
+    --ok: #2E7D53;
+    --warn: #A5750D;
+    --crit: #A93B2C;
+    --ok-bg: #E2EFE7;
+    --warn-bg: #F6EDD6;
+    --crit-bg: #F5DFDB;
+
+    --display: "Helvetica Neue", "Segoe UI", system-ui, -apple-system, sans-serif;
+    --body: Georgia, "Times New Roman", serif;
+    --data: Consolas, "SF Mono", ui-monospace, monospace;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ground: #12161A;
+      --panel: #1A1F24;
+      --panel-2: #232930;
+      --ink: #E8EBE7;
+      --ink-soft: #C3C9CD;
+      --muted: #8B959C;
+      --rule: #2E353C;
+      --accent: #E07B3C;
+      --accent-soft: #3A2416;
+      --ok: #5FBE8A;
+      --warn: #D6A93F;
+      --crit: #E0705C;
+      --ok-bg: #17301F;
+      --warn-bg: #332913;
+      --crit-bg: #351D19;
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --ground: #12161A;
+    --panel: #1A1F24;
+    --panel-2: #232930;
+    --ink: #E8EBE7;
+    --ink-soft: #C3C9CD;
+    --muted: #8B959C;
+    --rule: #2E353C;
+    --accent: #E07B3C;
+    --accent-soft: #3A2416;
+    --ok: #5FBE8A;
+    --warn: #D6A93F;
+    --crit: #E0705C;
+    --ok-bg: #17301F;
+    --warn-bg: #332913;
+    --crit-bg: #351D19;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    background: var(--ground);
+    color: var(--ink);
+    font-family: var(--body);
+    font-size: 17px;
+    line-height: 1.65;
+    margin: 0;
+    padding: 0 20px 100px;
+  }
+
+  .wrap {
+    max-width: 860px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 52px;
+  }
+
+  /* ---------- masthead ---------- */
+
+  header {
+    padding-top: 64px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  .eyebrow {
+    font-family: var(--display);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  h1 {
+    font-family: var(--display);
+    font-size: clamp(38px, 6.5vw, 62px);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1.02;
+    text-wrap: balance;
+    margin: 0;
+  }
+
+  .standfirst {
+    font-size: 20px;
+    line-height: 1.55;
+    color: var(--ink-soft);
+    max-width: 62ch;
+    margin: 0;
+  }
+
+  .masthead-rule {
+    height: 3px;
+    background: var(--ink);
+    margin-top: 6px;
+  }
+
+  /* ---------- sections ---------- */
+
+  section {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  h2 {
+    font-family: var(--display);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin: 0;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  h3 {
+    font-family: var(--display);
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: -0.015em;
+    text-wrap: balance;
+    margin: 0;
+  }
+
+  p { margin: 0; max-width: 68ch; }
+
+  strong { color: var(--ink); }
+
+  .lead-num {
+    font-family: var(--data);
+    font-size: 15px;
+    color: var(--accent);
+  }
+
+  /* ---------- pipeline ---------- */
+
+  .pipeline {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 2px;
+    background: var(--rule);
+    border: 1px solid var(--rule);
+  }
+
+  .stage {
+    background: var(--panel);
+    padding: 18px 16px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+  }
+
+  .stage-n {
+    font-family: var(--data);
+    font-size: 12px;
+    color: var(--accent);
+    letter-spacing: 0.08em;
+  }
+
+  .stage-t {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 15px;
+    letter-spacing: -0.01em;
+    line-height: 1.25;
+  }
+
+  .stage-d {
+    font-size: 14px;
+    line-height: 1.45;
+    color: var(--muted);
+  }
+
+  /* ---------- key-value panels ---------- */
+
+  .specs {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    gap: 1px;
+    background: var(--rule);
+    border: 1px solid var(--rule);
+  }
+
+  .spec {
+    background: var(--panel);
+    padding: 15px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .spec-k {
+    font-family: var(--display);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.11em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .spec-v {
+    font-family: var(--data);
+    font-size: 16px;
+    color: var(--ink);
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ---------- severity ---------- */
+
+  .sev-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 12px;
+  }
+
+  .sev {
+    border: 1px solid var(--rule);
+    border-left-width: 5px;
+    padding: 14px 16px;
+    background: var(--panel);
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .sev-ok { border-left-color: var(--ok); background: var(--ok-bg); }
+  .sev-warn { border-left-color: var(--warn); background: var(--warn-bg); }
+  .sev-crit { border-left-color: var(--crit); background: var(--crit-bg); }
+
+  .sev-label {
+    font-family: var(--display);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .sev-ok .sev-label { color: var(--ok); }
+  .sev-warn .sev-label { color: var(--warn); }
+  .sev-crit .sev-label { color: var(--crit); }
+
+  .sev-body { font-size: 14.5px; line-height: 1.45; color: var(--ink-soft); }
+
+  /* ---------- tables ---------- */
+
+  .table-scroll { overflow-x: auto; border: 1px solid var(--rule); }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--panel);
+    font-size: 15px;
+  }
+
+  th {
+    font-family: var(--display);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-align: left;
+    padding: 11px 14px;
+    border-bottom: 1px solid var(--rule);
+    white-space: nowrap;
+  }
+
+  td {
+    padding: 11px 14px;
+    border-bottom: 1px solid var(--rule);
+    vertical-align: top;
+    color: var(--ink-soft);
+  }
+
+  tr:last-child td { border-bottom: none; }
+
+  td.num {
+    font-family: var(--data);
+    font-variant-numeric: tabular-nums;
+    color: var(--ink);
+    white-space: nowrap;
+  }
+
+  td.why { font-size: 14.5px; }
+
+  /* ---------- callout ---------- */
+
+  .callout {
+    border-left: 4px solid var(--accent);
+    background: var(--accent-soft);
+    padding: 16px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .callout .spec-k { color: var(--accent); }
+
+  /* ---------- lists ---------- */
+
+  ul { margin: 0; padding-left: 22px; display: flex; flex-direction: column; gap: 9px; max-width: 68ch; }
+
+  li::marker { color: var(--accent); }
+
+  code {
+    font-family: var(--data);
+    font-size: 0.88em;
+    background: var(--panel-2);
+    padding: 1px 5px;
+    color: var(--ink);
+  }
+
+  footer {
+    border-top: 1px solid var(--rule);
+    padding-top: 18px;
+    font-size: 14px;
+    color: var(--muted);
+    max-width: 68ch;
+  }
+</style>
+
+<div class="wrap">
+
+  <header>
+    <div class="eyebrow">Hakamlar uchun texnik ma'lumot</div>
+    <h1>BeltGuard: konveyer lentasidagi shikastni real vaqtda o'lchaydigan tizim</h1>
+    <p class="standfirst">
+      Kamera lentani kuzatadi, neyron tarmoq har bir nuqsonni piksel darajasida ajratadi,
+      tizim uning <strong>millimetrdagi real o'lchamini</strong> hisoblab, xavflilik darajasini beradi.
+      Javob "nuqson bor" emas — "182 mm uzunlikdagi yirtiq, KRITIK, lentani to'xtating".
+    </p>
+    <div class="masthead-rule"></div>
+  </header>
+
+  <section>
+    <h2>Muammo</h2>
+    <h3>Uzunasiga yirtiq bir necha daqiqada o'nlab metrga cho'ziladi</h3>
+    <p>
+      Konchilikda konveyer lentasi — eng qimmat sarf materiallardan biri va butun ishlab chiqarish
+      shu bitta zanjirga bog'liq. Lenta yirtilsa, zarar ikki tomonlama: lentaning o'zi (yuz million so'mlar)
+      va to'xtab qolgan ishlab chiqarish. Uzunasiga yirtiq esa o'z-o'zidan o'sadi — kichik kesma bir necha
+      daqiqada o'nlab metrga cho'ziladi.
+    </p>
+    <p>
+      Hozirgi amaliyot — operator ko'z bilan kuzatadi. Bu tunda, changda va uzun smenada ishonchsiz.
+      BeltGuard shu kuzatuvni avtomatlashtiradi va eng muhimi — <strong>o'sish tendensiyasini o'lchaydi</strong>.
+    </p>
+  </section>
+
+  <section>
+    <h2>Tizim qanday ishlaydi</h2>
+    <div class="pipeline">
+      <div class="stage">
+        <div class="stage-n">01</div>
+        <div class="stage-t">Kadr olish</div>
+        <div class="stage-d">Lenta ustidagi kamera oqimi yoki video fayl</div>
+      </div>
+      <div class="stage">
+        <div class="stage-n">02</div>
+        <div class="stage-t">Segmentatsiya</div>
+        <div class="stage-d">YOLO11-seg har nuqson uchun piksel maskasi qaytaradi</div>
+      </div>
+      <div class="stage">
+        <div class="stage-n">03</div>
+        <div class="stage-t">Geometriya</div>
+        <div class="stage-d">Maskaga minimal burchakli to'rtburchak — uzunlik va kenglik</div>
+      </div>
+      <div class="stage">
+        <div class="stage-n">04</div>
+        <div class="stage-t">Kalibratsiya</div>
+        <div class="stage-d">Lenta kengligi orqali piksel → millimetr</div>
+      </div>
+      <div class="stage">
+        <div class="stage-n">05</div>
+        <div class="stage-t">Qaror</div>
+        <div class="stage-d">Klass + o'lcham → xavflilik darajasi va alert</div>
+      </div>
+    </div>
+    <p>
+      Bosqichlar tartibi muhim: <span class="lead-num">03</span> va <span class="lead-num">04</span> bo'lmasa
+      tizim faqat "nimadir bor" deydi. Aynan shu ikki bosqich chiqishni <strong>o'lchanadigan kattalikka</strong>
+      aylantiradi — va shu bilan qaror qabul qilish mumkin bo'ladi.
+    </p>
+  </section>
+
+  <section>
+    <h2>Asosiy texnik qaror</h2>
+    <h3>Segmentatsiya, ramka emas</h3>
+    <p>
+      Ko'pchilik nuqson aniqlash yechimi obyekt atrofiga to'rtburchak ramka (bounding box) chizadi.
+      Yirtiq uchun bu yaramaydi: yirtiq — uzun, ingichka va egri chiziq. Uni to'g'ri to'rtburchakka
+      o'rasangiz, ramka maydonining katta qismi sog'lom lentaga tegishli bo'ladi — o'lcham bir necha
+      barobar buziladi.
+    </p>
+    <p>
+      Shuning uchun instance segmentation tanlandi: model har bir nuqsonning aniq konturini beradi.
+      Maskadan <code>minAreaRect</code> orqali nuqsonning haqiqiy uzun o'qi olinadi — egri va qiya
+      yirtiqda ham o'lcham to'g'ri chiqadi. Bu — "aniqladi" bilan "o'lchadi" o'rtasidagi farq.
+    </p>
+    <div class="callout">
+      <div class="spec-k">Kalibratsiya</div>
+      <p style="font-size:15.5px">
+        Lenta kengligi ma'lum va o'zgarmas (masalan 1200 mm). Uni kadrdagi piksel kengligi bilan
+        solishtirib <code>mm/piksel</code> koeffitsienti chiqariladi. Shundan keyin har bir maska
+        millimetrda o'lchanadi. Bu — referens obyekt orqali kalibrlash usuli: qo'shimcha sensor
+        yoki stereo kamera talab qilmaydi.
+      </p>
+    </div>
+  </section>
+
+  <section>
+    <h2>Xavflilik mantiqi</h2>
+    <p>
+      Xavflilik ikki manbadan yig'iladi: nuqson <strong>turi</strong> (bazaviy daraja) va
+      <strong>o'lchami</strong> (kuchaytirish). Kichik tirnalish — kuzatuv; o'sha tirnalish 80 mm dan
+      oshsa jiddiy; 150 mm dan oshsa to'xtatish signali. Shu tariqa bitta klass ham holatga qarab
+      turli qaror beradi.
+    </p>
+    <div class="sev-grid">
+      <div class="sev sev-ok">
+        <div class="sev-label">Kuzatuv</div>
+        <div class="sev-body">Yuza tirnalish, yeyilish. Jurnalga yoziladi, ishlab chiqarish to'xtamaydi.</div>
+      </div>
+      <div class="sev sev-warn">
+        <div class="sev-label">Diqqat</div>
+        <div class="sev-body">Zarbadan shikast, chuqur o'yiq yoki 80 mm dan oshgan yuza nuqson. Rejali to'xtashda ko'rish kerak.</div>
+      </div>
+      <div class="sev sev-crit">
+        <div class="sev-label">Kritik</div>
+        <div class="sev-body">Yirtiq, teshik, teshilish yoki 150 mm dan oshgan jiddiy nuqson. Ekranda to'xtatish banneri.</div>
+      </div>
+    </div>
+    <p>
+      Ikki amaliy detal: <strong>Roller</strong>, <strong>Human</strong> va shunga o'xshash klasslar
+      alert bermaydi (ular nuqson emas, sahnaning bir qismi), va har bir klass uchun alert oralig'i
+      qo'yilgan — bitta yirtiq har kadrda qayta-qayta signal bermaydi, aks holda operator jurnalni
+      o'qimay qo'yadi.
+    </p>
+  </section>
+
+  <section>
+    <h2>Ma'lumot va model</h2>
+    <div class="specs">
+      <div class="spec">
+        <div class="spec-k">Dataset</div>
+        <div class="spec-v">922 rasm</div>
+      </div>
+      <div class="spec">
+        <div class="spec-k">Taqsimot</div>
+        <div class="spec-v">645 / 185 / 92</div>
+      </div>
+      <div class="spec">
+        <div class="spec-k">Klasslar</div>
+        <div class="spec-v">8 ta</div>
+      </div>
+      <div class="spec">
+        <div class="spec-k">Litsenziya</div>
+        <div class="spec-v">CC BY 4.0</div>
+      </div>
+      <div class="spec">
+        <div class="spec-k">Arxitektura</div>
+        <div class="spec-v">YOLO11-seg</div>
+      </div>
+      <div class="spec">
+        <div class="spec-k">Kadr o'lchami</div>
+        <div class="spec-v">640 × 640</div>
+      </div>
+      <div class="spec">
+        <div class="spec-k">Optimizator</div>
+        <div class="spec-v">AdamW · cos_lr</div>
+      </div>
+      <div class="spec">
+        <div class="spec-k">Qurilma</div>
+        <div class="spec-v">GTX 1650 · CUDA</div>
+      </div>
+    </div>
+    <p>
+      Klasslar: Tear, Hole, Puncture, impact damage, patch work, Roller, Human, Other Objects.
+      Oxirgi uchtasi — sahna konteksti: ular modelga <em>nima nuqson emasligini</em> ham o'rgatadi,
+      bu noto'g'ri signallarni kamaytiradi.
+    </p>
+  </section>
+
+  <section>
+    <h2>Augmentatsiya — nega aynan shunday</h2>
+    <p>
+      Standart sozlamalar emas, lentaning fizikasiga qarab tanlangan. Har bir qiymat ortida sabab bor:
+    </p>
+    <div class="table-scroll">
+      <table>
+        <thead>
+          <tr>
+            <th>Parametr</th>
+            <th>Qiymat</th>
+            <th>Sabab</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="num">hsv_v</td>
+            <td class="num">0.5</td>
+            <td class="why">Konda yorug'lik keskin o'zgaradi — projektor, chang, soya. Model yorqinlikka bog'liq bo'lmasligi kerak.</td>
+          </tr>
+          <tr>
+            <td class="num">flipud</td>
+            <td class="num">0.0</td>
+            <td class="why">Lenta hech qachon ag'darilmaydi. Vertikal aylantirish real bo'lmagan kadr yaratadi va modelni chalg'itadi.</td>
+          </tr>
+          <tr>
+            <td class="num">degrees</td>
+            <td class="num">5</td>
+            <td class="why">Kamera deyarli qat'iy o'rnatiladi — faqat kichik og'ish real. Kuchli burish sun'iy bo'ladi.</td>
+          </tr>
+          <tr>
+            <td class="num">copy_paste</td>
+            <td class="num">0.3</td>
+            <td class="why">Segmentatsiyada juda samarali: mavjud maskalarni boshqa kadrga ko'chirib, kam uchraydigan nuqson sonini oshiradi.</td>
+          </tr>
+          <tr>
+            <td class="num">erasing</td>
+            <td class="num">0.3</td>
+            <td class="why">Chang, ruda bo'laklari va suv nuqsonni qisman yopadi. Model qisman ko'ringan yirtiqni ham topishi kerak.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p>
+      Xulosa: kamaytirilgan augmentatsiya ham qaror — noreal o'zgartirish modelni yaxshilamaydi,
+      aksincha, o'quv signalini buzadi.
+    </p>
+  </section>
+
+  <section>
+    <h2>Nima ishlaydi, nima hali yo'q</h2>
+    <p>
+      Halol chegara — tizim bugun quyidagilarni bajaradi:
+    </p>
+    <ul>
+      <li><strong>Ishlaydi:</strong> video yoki kamera oqimida segmentatsiya, millimetrdagi o'lcham, uch darajali xavflilik, to'xtatish banneri, nuqsonlar jurnali va CSV eksport.</li>
+      <li><strong>Ishlaydi:</strong> takroriy signal filtri va nuqson bo'lmagan obyektlarni (rolik, odam) e'tiborsiz qoldirish.</li>
+      <li><strong>Hali yo'q:</strong> nuqsonni lenta koordinatasiga bog'lash (optik oqim orqali "lenta xaritasi") — har aylanishda o'sha yirtiqni qayta o'lchab, o'sish tezligini ko'rsatish.</li>
+      <li><strong>Hali yo'q:</strong> anomaliya qatlami — datasetda umuman uchramagan yangi turdagi nuqsonni topish.</li>
+      <li><strong>Hali yo'q:</strong> edge qurilmada (Jetson) tezlik o'lchovi va INT8 optimizatsiya.</li>
+    </ul>
+    <p>
+      Bular arxitekturaga qarshi emas — pipeline shu qadamlarni qo'shish uchun ochiq qoldirilgan.
+      Model chiqishi allaqachon maska va o'lcham, ya'ni "lenta xaritasi" uchun kerakli ma'lumot mavjud.
+    </p>
+  </section>
+
+  <section>
+    <h2>Nega bu yechim ishlaydi</h2>
+    <ul>
+      <li><strong>O'lchov — qaror uchun asos.</strong> Xavflilik chegaralari millimetrda belgilangan, ya'ni ular korxona reglamentiga moslanadi. Model qayta o'rgatilmaydi, faqat chegara o'zgaradi.</li>
+      <li><strong>Arzon apparat.</strong> Oddiy kamera va bitta GPU yetadi. Stereo kamera, lazer skaner yoki rentgen talab qilinmaydi.</li>
+      <li><strong>Kengaytiriladigan klasslar.</strong> Yangi nuqson turi qo'shish — dataset masalasi, kod o'zgarmaydi; xavflilik jadvaliga bitta qator qo'shiladi.</li>
+      <li><strong>Tushunarli chiqish.</strong> Operator maskani ko'radi va o'lchamni o'qiydi — "qora quti" emas, tekshirib bo'ladigan natija.</li>
+    </ul>
+  </section>
+
+  <footer>
+    Dataset: Roboflow Universe — <em>conveyor-belt-damage</em> (CC BY 4.0).
+    Model: Ultralytics YOLO11 segmentatsiya. Dashboard: Streamlit + OpenCV.
+    Aniqlik metrikalari (mAP) training yakunlangach shu hujjatga qo'shiladi.
+  </footer>
+
+</div>

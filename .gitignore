@@ -1,0 +1,32 @@
+# Dataset — Roboflow'dan qayta yuklab olinadi (notebook 3-bosqich)
+ds_public/
+frames/
+videos/
+
+# Training natijalari (og'ir, qayta hosil qilinadi)
+runs/
+preds/
+
+# Pretrained yuklab olingan modellar (Ultralytics avtomatik yuklaydi)
+yolo11n-seg.pt
+yolo11s-seg.pt
+yolo*.pt
+!models/*.pt
+
+# Demo videolar (og'ir)
+*.mp4
+*.avi
+*.mov
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+.ipynb_checkpoints/
+
+# Muhit
+.env
+
+# Eski, almashtirilgan versiya
+beltguard_dashboard_old.py

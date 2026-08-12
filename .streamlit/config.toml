@@ -1,0 +1,23 @@
+# BeltGuard Streamlit mavzusi
+# Mavzu almashtirish: yuqori o'ng burchakdagi ☰ menyu -> Settings -> Appearance
+# (Light / Dark / Use system setting). Ikkala mavzu ham quyida sozlangan.
+
+[theme]
+primaryColor = "#3987e5"
+font = "sans serif"
+
+[theme.light]
+backgroundColor = "#f7f7f4"
+secondaryBackgroundColor = "#ffffff"
+textColor = "#1f1f1d"
+
+[theme.dark]
+backgroundColor = "#1a1a19"
+secondaryBackgroundColor = "#232322"
+textColor = "#e8e8e2"
+
+[server]
+maxUploadSize = 500
+
+[browser]
+gatherUsageStats = false
