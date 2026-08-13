@@ -281,7 +281,7 @@ def alerts_html(events):
 with st.sidebar:
     st.markdown("### ⚙️ Sozlamalar")
     model_path = st.text_input("Model fayli", MODEL_PATH_DEFAULT)
-    source = st.text_input("Manba", "0", help="0 = veb-kamera, yoki video fayl yo'li")
+    source = st.text_input("Manba", "demo/demo.mp4", help="0 = veb-kamera, yoki video fayl yo'li")
     conf_th = st.slider("Confidence chegarasi", 0.10, 0.90, 0.40, 0.05,
                         help="F1-Confidence egri chizig'i bo'yicha optimal ≈ 0.40")
     imgsz = st.select_slider("Inference o'lchami", [480, 640, 960], value=640,

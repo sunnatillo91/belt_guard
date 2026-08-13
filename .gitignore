@@ -17,6 +17,7 @@ yolo*.pt
 *.mp4
 *.avi
 *.mov
+!demo/demo.mp4
 
 # Python
 __pycache__/
@@ -36,3 +37,5 @@ beltguard_dashboard_old.py
 
 # Birlashtirilgan dataset (skript orqali qayta yig'iladi)
 ds_merged/
+IMG_5772.JPG
+final-rasmlar/IMG_5769.JPG
