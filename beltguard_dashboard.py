@@ -291,8 +291,8 @@ with st.sidebar:
     st.markdown("### 📏 Kalibratsiya (px → mm)")
     st.caption("Lenta kengligini kadrda (px) va real hayotda (mm) kiriting — "
                "shunda o'lchamlar mm da chiqadi.")
-    belt_px = st.number_input("Lenta kengligi kadrda (px)", 0, 4000, 0)
-    belt_mm = st.number_input("Lenta real kengligi (mm)", 0, 3000, 0)
+    belt_px = st.number_input("Lenta kengligi kadrda (px)", 0, 4000, 640)
+    belt_mm = st.number_input("Lenta real kengligi (mm)", 0, 3000, 421)
     mm_per_px = (belt_mm / belt_px) if belt_px > 0 and belt_mm > 0 else None
     if mm_per_px:
         st.success(f"1 px = {mm_per_px:.3f} mm")
