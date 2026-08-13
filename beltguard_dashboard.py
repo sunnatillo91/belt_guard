@@ -25,7 +25,7 @@ import streamlit as st
 
 # ---------------------------------------------------------------- sozlamalar
 
-MODEL_PATH_DEFAULT = "models/best_stand.pt"   # stend kadrlari bilan fine-tune qilingan
+MODEL_PATH_DEFAULT = "models/best960.pt"   # stend kadrlari bilan fine-tune qilingan
 
 # Brauzer tab'i yopilganda asyncio har kadrda ConnectionResetError chiqaradi —
 # ishlashga ta'sir qilmaydi, faqat terminalni to'ldiradi.
